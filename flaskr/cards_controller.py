@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from flaskr.repository import get_db
 from dataclasses import dataclass
 # from flask_api import status
@@ -34,7 +34,7 @@ def add_card():
     c.execute("INSERT INTO cards (source, tr) VALUES(?,?)", (sr, tr,))
     db.commit()
     card = Card(c.lastrowid, sr, tr)
-    return json.dumps(card.__dict__)
+    return jsonify(card.__dict__), 200
 
 
 @bp.route("", methods=['GET'])
@@ -46,24 +46,34 @@ def get_cards():
     out = []
     for row in rows:
         out.append(dict_factory(c, row))
-    return json.dumps(out)
+    return jsonify(out), 200
 
 
 @bp.route("<id>", methods=['GET'])
-def get_card(id):
+def get_card(card_id):
     db = get_db()
     c = db.cursor()
-    c.execute("SELECT * FROM cards WHERE id = ?", (id,))
+    c.execute("SELECT * FROM cards WHERE id = ?", (card_id,))
     row = c.fetchone()
     if row:
-        return json.dumps(dict_factory(c, row))
+        return jsonify(dict_factory(c, row)), 200
     else:
         return "Niepoprawne id", 404
 
 
+@bp.route("<id>", methods=['DELETE'])
+def del_card(id):
+    db = get_db()
+    c = db.cursor()
+    c.execute("DELETE FROM cards WHERE id = ?", (id,))
+    db.commit()
+    if c.rowcount:
+        return ("Usunięto %s" % id), 200
+    else:
+        return ("Nie usunięto %s" % id), 404
+
 
 # /card - random
-# DELETE /card/<id>
 # PATCH /card/<id>
 
 # POST /score/<id>
