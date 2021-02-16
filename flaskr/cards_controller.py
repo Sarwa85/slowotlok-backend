@@ -68,7 +68,7 @@ def del_card(id):
     c.execute("DELETE FROM cards WHERE id = ?", (id,))
     db.commit()
     if c.rowcount:
-        return ("Usunięto %s" % id), 200
+        return {"removed": id}, 200
     else:
         return ("Nie usunięto %s" % id), 404
 
@@ -84,7 +84,7 @@ def patch_card():
     c.execute("UPDATE cards SET source = ?, tr = ? WHERE id = ?", (sr, tr, card_id))
     db.commit()
     if c.rowcount:
-        return ("Zaktualizowano %s" % card_id), 200
+        return j, 200
     else:
         return ("Nie zaktualizowano %s" % card_id), 404
 
@@ -99,7 +99,6 @@ def random_cards(count):
     for row in rows:
         out.append(dict_factory(c, row))
     return jsonify(out), 200
-# /card - random
 
 
 # POST /score/<id>
