@@ -73,6 +73,20 @@ def del_card(id):
         return ("Nie usunięto %s" % id), 404
 
 
+@bp.route("", methods=['PATCH'])
+def patch_card():
+    db = get_db()
+    j = request.json
+    card_id = j["id"]
+    sr = j["source"]
+    tr = j["tr"]
+    c = db.cursor()
+    c.execute("UPDATE cards SET source = ?, tr = ? WHERE id = ?", (sr, tr, card_id))
+    db.commit()
+    if c.rowcount:
+        return ("Zaktualizowano %s" % card_id), 200
+    else:
+        return ("Nie zaktualizowano %s" % card_id), 404
 # /card - random
 # PATCH /card/<id>
 
