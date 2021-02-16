@@ -87,8 +87,20 @@ def patch_card():
         return ("Zaktualizowano %s" % card_id), 200
     else:
         return ("Nie zaktualizowano %s" % card_id), 404
+
+
+@bp.route("/random/<int:count>", methods=['GET'])
+def random_cards(count):
+    db = get_db()
+    c = db.cursor()
+    c.execute("SELECT * FROM cards ORDER BY RANDOM() LIMIT ?", (count,))
+    rows = c.fetchall()
+    out = []
+    for row in rows:
+        out.append(dict_factory(c, row))
+    return jsonify(out), 200
 # /card - random
-# PATCH /card/<id>
+
 
 # POST /score/<id>
 # GET /score/<id>
