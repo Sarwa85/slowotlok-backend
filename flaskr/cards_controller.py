@@ -41,7 +41,13 @@ def add_card():
 def get_cards():
     db = get_db()
     c = db.cursor()
-    c.execute("SELECT * FROM cards")
+    c.execute("SELECT cards.id, "
+              "cards.source, "
+              "cards.tr, "
+              "COALESCE(scores.good, 0) as good, "
+              "COALESCE(scores.bad, 0) as bad "
+              "FROM cards "
+              "LEFT JOIN scores ON cards.id=scores.id")
     rows = c.fetchall()
     out = []
     for row in rows:
@@ -93,7 +99,14 @@ def patch_card():
 def random_cards(count):
     db = get_db()
     c = db.cursor()
-    c.execute("SELECT * FROM cards ORDER BY RANDOM() LIMIT ?", (count,))
+    c.execute("SELECT cards.id, "
+              "cards.source, "
+              "cards.tr, "
+              "COALESCE(scores.good, 0) as good, "
+              "COALESCE(scores.bad, 0) as bad "
+              "FROM cards "
+              "LEFT JOIN scores ON cards.id=scores.id "
+              "ORDER BY RANDOM() LIMIT ?", (count,))
     rows = c.fetchall()
     out = []
     for row in rows:

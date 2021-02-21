@@ -1,15 +1,24 @@
 {
 	"info": {
-		"_postman_id": "1e1d9ddb-b23a-4e14-b443-c0ba57a88984",
-		"name": "slowotlok",
+		"_postman_id": "2799fd9c-58cf-4eef-a4c7-ffe729c9193c",
+		"name": "slowotok",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "cards",
+			"name": "add-card",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"source\": \"a225ssd\",\n    \"tr\": \"krasdowa\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://localhost:5000/card",
 					"protocol": "http",
@@ -25,7 +34,36 @@
 			"response": []
 		},
 		{
-			"name": "random_cards",
+			"name": "del_card",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"source\": \"dog\",\n    \"tr\": \"pies\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/card/8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"card",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cards",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -46,68 +84,12 @@
 			"response": []
 		},
 		{
-			"name": "add_card",
+			"name": "card",
 			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"source\": \"dog\",\n    \"tr\": \"pies\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:5000/card",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"card"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update_card",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"source\": \"dog\",\n    \"tr\": \"pies\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:5000/card",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"card"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "rm_card",
-			"request": {
-				"method": "DELETE",
+				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/card/100",
+					"raw": "http://localhost:5000/card/122",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -115,7 +97,36 @@
 					"port": "5000",
 					"path": [
 						"card",
-						"100"
+						"122"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "score_add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"card_id\": 1,\n    \"good\": 1,\n    \"bad\": 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/score/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"score",
+						"add"
 					]
 				}
 			},

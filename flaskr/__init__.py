@@ -25,6 +25,10 @@ def create_app(test_config=None):
 
     from . import repository
     repository.init_app(app)
+
     from . import cards_controller
     app.register_blueprint(cards_controller.bp)
+
+    from . import scores_controller
+    app.register_blueprint(scores_controller.bp)
     return app
