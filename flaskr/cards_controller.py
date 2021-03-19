@@ -55,7 +55,7 @@ def get_cards():
     return jsonify(out), 200
 
 
-@bp.route("<id>", methods=['GET'])
+@bp.route("<card_id>", methods=['GET'])
 def get_card(card_id):
     db = get_db()
     c = db.cursor()
@@ -105,7 +105,7 @@ def random_cards(count):
               "COALESCE(scores.good, 0) as good, "
               "COALESCE(scores.bad, 0) as bad "
               "FROM cards "
-              "LEFT JOIN scores ON cards.id=scores.id "
+              "LEFT JOIN scores ON cards.id=scores.card_id "
               "ORDER BY RANDOM() LIMIT ?", (count,))
     rows = c.fetchall()
     out = []
