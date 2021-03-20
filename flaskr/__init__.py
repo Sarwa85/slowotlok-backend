@@ -1,7 +1,8 @@
 import os
 
 from flask import Flask
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
+from flaskr.baseinit import init as initBase
 
 
 def create_app(test_config=None):
@@ -9,9 +10,10 @@ def create_app(test_config=None):
     CORS(app)
 
     app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
-    )
+         SECRET_KEY='dev',
+     )
+
+    initBase()
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -26,12 +28,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from . import repository
-    repository.init_app(app)
-
-    from . import cards_controller
-    app.register_blueprint(cards_controller.bp)
-
-    from . import scores_controller
-    app.register_blueprint(scores_controller.bp)
+    from flaskr.card import cardcontroler
+    app.register_blueprint(cardcontroler.bp)
     return app
