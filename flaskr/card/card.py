@@ -4,12 +4,12 @@ from flaskr.base import Base
 
 
 class Card(Base):
-    __tablename__ = 'cards'
+    __tablename__ = 'card'
 
     id = Column(Integer, primary_key=True)
     source = Column(String)
     tr = Column(String)
-    score = relationship("Score", uselist=False, backref="scores")
+    score = relationship("Score", uselist=False, backref="card")
 
     def __init__(self, source, translation, score):
         self.source = source

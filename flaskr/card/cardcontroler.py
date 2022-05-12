@@ -6,10 +6,8 @@ from flaskr.score.score import Score
 bp = Blueprint('card', __name__, url_prefix='/card')
 
 
-@bp.route("", methods=['GET'])
-def get_cards():
-    order = request.args.get("order")
-    limit = request.args.get("limit")
+@bp.route("<order>/<limit>", methods=['GET'])
+def get_cards(order, limit):
     return Response(response=cardservice.get_cards(order, limit), status=200, mimetype="application/json")
 
 

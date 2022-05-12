@@ -3,6 +3,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from flaskr.baseinit import init as initBase
+from flaskr.score import scorecontroller
 
 
 def create_app(test_config=None):
@@ -30,4 +31,5 @@ def create_app(test_config=None):
 
     from flaskr.card import cardcontroler
     app.register_blueprint(cardcontroler.bp)
+    app.register_blueprint(scorecontroller.bp)
     return app
