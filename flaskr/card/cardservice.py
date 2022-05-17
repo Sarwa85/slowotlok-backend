@@ -1,3 +1,5 @@
+import csv
+
 from sqlalchemy import select, func
 
 from flaskr.base import Session
@@ -37,3 +39,11 @@ def del_card(card_id: int):
     session.query(Card).filter(Card.id == card_id).delete()
     session.commit()
     return {"removed": card_id}
+
+
+def import_cards(card_list):
+    session = Session()
+    for card in card_list:
+        session.add(card)
+    session.commit()
+    return
