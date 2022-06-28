@@ -1,22 +1,37 @@
 import csv
 
 from flask import Blueprint, request, Response
+from flask_login import login_required
+
 from flaskr.card import cardservice
 from flaskr.card.card import Card
-from flaskr.score.score import Score
+# from flaskr.score.score import Score
 
 bp = Blueprint('card', __name__, url_prefix='/card')
 
 
-@bp.route("<order>/<limit>", methods=['GET'])
-def get_cards(order, limit):
-    return Response(response=cardservice.get_cards(order, limit), status=200, mimetype="application/json")
+@bp.route("/<card_id>", methods=['GET'])
+# @login_required
+def get_card(card_id: int):
+    return Response(response=cardservice.get_card(card_id), status=200, mimetype="application/json")
+
+
+@bp.route("", methods=['GET'])
+# @login_required
+def get_cards():
+    return Response(response=cardservice.get_all_cards(), status=200, mimetype="application/json")
 
 
 @bp.route("", methods=['POST'])
 def add_card():
     j = request.json
-    return Response(response=cardservice.add_card(Card(j["source"], j["tr"], Score(0, 0))), status=200, mimetype="application/json")
+    return Response(response=cardservice.add_card(Card(src=j["src"], tr=j["tr"], good=0, bad=0)), status=200, mimetype="application/json")
+
+
+@bp.route("", methods=['PUT'])
+def update_card():
+    j = request.json
+    return Response(response=cardservice.update_card(Card(j["src"], j["tr"], j["good"], j["bad"], card_id=j["id"])), status=200, mimetype="application/json")
 
 
 @bp.route("<card_id>", methods=["DELETE"])
@@ -27,5 +42,5 @@ def del_card(card_id):
 # TODO Dekorator z content-type
 @bp.route("import", methods=["POST"])
 def import_cards():
-    cards = [Card(row[0], row[1], Score(0, 0)) for row in csv.reader(request.data.decode("UTF-8").splitlines(), delimiter=';', quotechar='|')]
+    cards = [Card(row[0], row[1], 0, 0) for row in csv.reader(request.data.decode("UTF-8").splitlines(), delimiter=';', quotechar='|')]
     return Response(response=cardservice.import_cards(cards), status=200, mimetype="application/json")

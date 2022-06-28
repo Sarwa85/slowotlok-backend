@@ -20,6 +20,20 @@ def get_cards(order, limit):
     return json.dumps(list([card.to_dict() for card in all_cards]))
 
 
+def get_card(id: int):
+    session = Session()
+    query = session.query(Card)
+    card: [Card] = query.filter(Card.id == id).first()
+    return json.dumps(card.to_dict())
+
+
+def get_all_cards():
+    session = Session()
+    query = session.query(Card)
+    all_cards: [Card] = query.all()
+    return json.dumps(list([card.to_dict() for card in all_cards]))
+
+
 def add_card(card: Card):
     session = Session()
     session.add(card)
@@ -36,9 +50,21 @@ def get_random(count: int):
 
 def del_card(card_id: int):
     session = Session()
-    session.query(Card).filter(Card.id == card_id).delete()
+    c = session.query(Card).filter(Card.id == card_id)
+    c.delete()
     session.commit()
-    return {"removed": card_id}
+    return c
+
+
+def update_card(card: Card):
+    session = Session()
+    c: Card = session.query(Card).filter(Card.id == card.id).first()
+    c.good = card.good
+    c.bad = card.bad
+    c.tr = card.tr
+    c.src = card.src
+    session.commit()
+    return card
 
 
 def import_cards(card_list):

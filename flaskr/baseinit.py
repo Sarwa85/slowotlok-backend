@@ -1,6 +1,6 @@
 from flaskr.base import engine, Base
 from flaskr.card import card
-from flaskr.score import score
+# from flaskr.score import score
 
 
 def init():

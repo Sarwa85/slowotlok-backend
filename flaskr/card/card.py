@@ -7,20 +7,32 @@ class Card(Base):
     __tablename__ = 'card'
 
     id = Column(Integer, primary_key=True)
-    source = Column(String)
+    src = Column(String)
     tr = Column(String)
-    score = relationship("Score", uselist=False, backref="card")
+    good = Column(Integer)
+    bad = Column(Integer)
+    # score = relationship("Score", uselist=False, backref="card")
 
-    def __init__(self, source, translation, score):
-        self.source = source
-        self.tr = translation
-        self.score = score
+    def __init__(self, src, tr, good, bad, card_id=None,):
+        self.id = card_id
+        self.src = src
+        self.tr = tr
+        self.good = good
+        self.bad = bad
+
+
+    # def __init__(self, source, translation, good, bad):
+    #     self.src = source
+    #     self.tr = translation
+    #     self.good = good
+    #     self.bad = bad
 
     # Nie osądzaj mnie... 
     def to_dict(self):
         return {
             "id": self.id,
-            "source": self.source,
+            "src": self.src,
             "tr": self.tr,
-            "score": self.score.to_dict()
+            "good": self.good,
+            "bad": self.bad
         }
