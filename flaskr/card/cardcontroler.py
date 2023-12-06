@@ -1,4 +1,5 @@
 import csv
+import json
 
 from flask import Blueprint, request, Response
 from flask_login import login_required
@@ -22,16 +23,24 @@ def get_cards():
     return Response(response=cardservice.get_all_cards(), status=200, mimetype="application/json")
 
 
+@bp.route("<order>/<limit>", methods=['GET'])
+def get_ordered_cards(order, limit: int):
+    return Response(response=cardservice.get_cards(order, int(limit)), status=200, mimetype="application/json")
+
+
+
 @bp.route("", methods=['POST'])
 def add_card():
     j = request.json
-    return Response(response=cardservice.add_card(Card(src=j["src"], tr=j["tr"], good=0, bad=0)), status=200, mimetype="application/json")
+    card = Card(src=j["src"], tr=j["tr"], good=0, bad=0)
+    return Response(response=cardservice.add_card(card), status=200, mimetype="application/json")
 
 
 @bp.route("", methods=['PUT'])
 def update_card():
     j = request.json
-    return Response(response=cardservice.update_card(Card(j["src"], j["tr"], j["good"], j["bad"], card_id=j["id"])), status=200, mimetype="application/json")
+    card = Card(src=j["src"], tr=j["tr"], good=j["good"], bad=j["bad"], card_id=j["id"])
+    return Response(response=json.dumps(cardservice.update_card(card).to_dict()), status=200, mimetype="application/json")
 
 
 @bp.route("<card_id>", methods=["DELETE"])
