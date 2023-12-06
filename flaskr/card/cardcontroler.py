@@ -40,12 +40,14 @@ def add_card():
 def update_card():
     j = request.json
     card = Card(src=j["src"], tr=j["tr"], good=j["good"], bad=j["bad"], card_id=j["id"])
-    return Response(response=json.dumps(cardservice.update_card(card).to_dict()), status=200, mimetype="application/json")
+    return Response(response=cardservice.update_card(card), status=200, mimetype="application/json")
 
 
 @bp.route("<card_id>", methods=["DELETE"])
 def del_card(card_id):
-    return Response(response=cardservice.del_card(card_id), status=200, mimetype="application/json")
+    if card := cardservice.del_card(card_id):
+        return Response(response=card, status=200, mimetype="application/json")
+    return Response(response=card, status=404, mimetype="application/json")
 
 
 # TODO Dekorator z content-type

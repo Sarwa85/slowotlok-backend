@@ -59,10 +59,11 @@ def get_random(count: int):
 
 def del_card(card_id: int):
     session = Session()
-    c = session.query(Card).filter(Card.id == card_id)
-    c.delete()
-    session.commit()
-    return c
+    if c := session.query(Card).get(card_id):
+        session.delete(c)
+        session.commit()
+        return json.dumps(c.to_dict())
+    return None
 
 
 def update_card(card: Card):
@@ -73,8 +74,7 @@ def update_card(card: Card):
     c.tr = card.tr
     c.src = card.src
     session.commit()
-    # json.dumps(card.to_dict())
-    return card
+    return json.dumps(card.to_dict())
 
 
 def import_cards(card_list):
