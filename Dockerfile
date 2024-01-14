@@ -1,4 +1,4 @@
-FROM python:3.10-slim-bookworm
+FROM arm64v8/python:3.10-slim-bookworm
 COPY flaskr /app/flaskr
 WORKDIR /app
 COPY requirements.txt requirements.txt
