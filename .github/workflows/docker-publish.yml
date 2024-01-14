@@ -25,7 +25,7 @@ env:
 jobs:
   build:
 
-    runs-on: arm64v8/ubuntu-latest
+    runs-on: arm64v8/ubuntu:latest
     permissions:
       contents: read
       packages: write
