@@ -25,7 +25,7 @@ env:
 jobs:
   build:
 
-    runs-on: arm64v8/ubuntu:latest
+    runs-on: ubuntu:latest
     permissions:
       contents: read
       packages: write
@@ -82,7 +82,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          platforms: linux/arm64
+          platforms: linux/arm64,linux/arm64
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
