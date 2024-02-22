@@ -1,0 +1,11 @@
+services:
+  app:
+    image: ghcr.io/sarwa85/slowotlok-backend-flask:master
+    ports:
+      - "9999:9999"
+    volumes:
+      - slowotlok-backend-flask-data:/data 
+    container_name: slowotlok-backend-flask
+    restart: always 
+volumes:
+  slowotlok-backend-flask-data:
