@@ -1,3 +1,6 @@
+LABEL org.opencontainers.image.source=https://github.com/Sarwa85/slowotlok-backend-flask
+LABEL org.opencontainers.image.description="slowotlok-backend"
+LABEL org.opencontainers.image.licenses=MIT
 FROM arm64v8/python:3.10-slim-bookworm
 COPY flaskr /app/flaskr
 WORKDIR /app
